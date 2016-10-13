@@ -1,6 +1,6 @@
 $(function() {
     // Get the form.
-    var form = $('#ajax-contact');
+    var form = $('#contactForm');
 
     // Get the messages div.
     var formMessages = $('#form-messages');

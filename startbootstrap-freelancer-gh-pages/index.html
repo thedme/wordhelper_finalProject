@@ -108,7 +108,7 @@
                     <h2><button id="update" type="button">Button</button>
 <div id="counter" >1</div></h2>
                     <hr class="star-primary">
-                    <div><textarea class="form-control" rows="10"></textarea></div>
+                    <div><textarea class="form-control" rows="10" id="displayrandomdef"></textarea></div>
                 </div>
                     <div size="20px">
                     <form action="demo_form.asp" >
@@ -208,11 +208,13 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-lg-4 col-lg-offset-2">
-                    <p>Freelancer is a free bootstrap theme created by Start Bootstrap. The download includes the complete source files including HTML, CSS, and JavaScript as well as optional LESS stylesheets for easy customization.</p>
+                <div class="col-lg-1col-lg-offset-2">
+                    <p><img src="img/portfolio/vocabulary.png" align="right" height="200">                    
+                    </p>
                 </div>
                 <div class="col-lg-4">
-                    <p>Whether you're a student looking to showcase your work, a professional looking to attract clients, or a graphic artist looking to share your projects, this template is the perfect starting point!</p>
+                    <p style="">
+                    Vocab helper is a free website that was created to meet your vocabulary needs. Whether you're an avid reader looking to define the words in the book you are enjoying, a student looking to impress your English teacher, or a bored peruser of the internet, this website is  perfect for you!</p>
                 </div>
                 <div class="col-lg-8 col-lg-offset-2 text-center">
                     <a href="#" class="btn btn-lg btn-outline">
@@ -236,6 +238,7 @@
                 <div class="col-lg-8 col-lg-offset-2">
                     <!-- To configure the contact form email address, go to mail/contact_me.php and update the email address in the PHP file on line 19. -->
                     <!-- The form should work on most web servers, but if the form is not working you may need to configure your web server differently. -->
+                    <div id="form-messages"></div>
                     <form name="sentMessage" id="contactForm" novalidate>
                         <div class="row control-group">
                             <div class="form-group col-xs-12 floating-label-form-group controls">
@@ -285,8 +288,8 @@
                 <div class="row">
                     <div class="footer-col col-md-4">
                         <h3>Location</h3>
-                        <p>3481 Melrose Place
-                            <br>Beverly Hills, CA 90210</p>
+                        <p>8830 Stanford blvd
+                            <br>Columbia, MD 21045</p>
                     </div>
                     <div class="footer-col col-md-4">
                         <h3>Around the Web</h3>
@@ -309,8 +312,8 @@
                         </ul>
                     </div>
                     <div class="footer-col col-md-4">
-                        <h3>About Freelancer</h3>
-                        <p>Freelance is a free to use, open source Bootstrap theme created by <a href="http://startbootstrap.com">Start Bootstrap</a>.</p>
+                        <!-- <h3>About Freelancer</h3>
+                        <p>Freelance is a free to use, open source Bootstrap theme created by <a href="http://startbootstrap.com">Start Bootstrap</a>.</p> -->
                     </div>
                 </div>
             </div>
@@ -578,6 +581,8 @@
     <!-- jQuery -->
     <script src="vendor/jquery/jquery.min.js"></script>
 
+   <!--  <script src="app.js"></script> -->
+
     <!-- Bootstrap Core JavaScript -->
     <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
 
@@ -596,14 +601,49 @@
      <script src="http://vnjs.net/www/project/freewall/freewall.js"></script>
 
 
+
+
 <script type="text/javascript">
 
 var count = 0;
 
 $("#update").click(function() {
-    count++;
-    $("#counter").html("score is: "+count);
-});
+    // count++;
+    // $("#counter").html("score is: "+count);
+
+
+            $("#counter").html("");
+
+
+
+            $.get("https://cors-anywhere.herokuapp.com/https://owlbot.info/api/v1/dictionary/" + $("#wordToLookup").val(), function(data){
+
+                if(data.length == 0){
+                    alert("your word is either not a word or is misspelled..Please try again!")
+                    return false;
+                }
+
+                $("#displayrandomdef").css("fontSize", 20);
+
+                $.each(data, function(key, val){
+
+                    $.each(val, function(key, val){
+
+                        if(val !== null){
+                            
+                            $("#displayrandomdef").append(val + "<br>")
+                        }
+                        // $("#definitionDiv").charset("utf-8");
+                    
+
+                    })
+
+                })
+
+            }, "json")
+
+        })
+
 
 
     $(function() {
@@ -612,8 +652,7 @@ $("#update").click(function() {
     });
  
 
-
-
+    
 
 
 
@@ -630,12 +669,12 @@ $("#update").click(function() {
             $.get("https://cors-anywhere.herokuapp.com/https://owlbot.info/api/v1/dictionary/" + $("#wordToLookup").val(), function(data){
 
                 if(data.length == 0){
-                    alert("your word sux yo!")
+                    alert("your word is either not a word or is misspelled..Please try again!")
                     return false;
                 }
 
                 $("#definitionDiv").css("fontSize", 40);
-                
+
                 $.each(data, function(key, val){
 
                     $.each(val, function(key, val){
@@ -658,6 +697,45 @@ $("#update").click(function() {
         
 
     })
+
+    //  $(function(){
+
+    //     $("#message").hover(function(){
+    //         $("#message").html("");
+
+
+
+    //         $.get("https://cors-anywhere.herokuapp.com/https://owlbot.info/api/v1/dictionary/" + $("#wordToLookup").val(), function(data){
+
+    //             if(data.length == 0){
+    //                 alert("your word is either not a word or is misspelled..Please try again!")
+    //                 return false;
+    //             }
+
+    //             $("#definitionDiv").css("fontSize", 40);
+
+    //             $.each(data, function(key, val){
+
+    //                 $.each(val, function(key, val){
+
+    //                     if(val !== null){
+                            
+    //                         $("#definitionDiv").append(val + "<br>")
+    //                     }
+    //                     // $("#definitionDiv").charset("utf-8");
+                    
+
+    //                 })
+
+    //             })
+
+    //         }, "json")
+
+    //     })
+
+        
+
+    // })
 
 
 
