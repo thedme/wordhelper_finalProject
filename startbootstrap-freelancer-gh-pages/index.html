@@ -105,31 +105,30 @@
                 <div class="col-lg-12 text-center">
 
 
-                    <h2><button id="update" type="button">Button</button>
-<div id="counter" >1</div></h2>
+                    <h2><button id="update" type="button">score</button>
+<div id="counter" >0</div></h2>
                     <hr class="star-primary">
                     <div><textarea class="form-control" rows="5" id="displayrandomdef"></textarea></div>
                 </div>
                     <div size="20px">
-                    <form action="demo_form.asp" >
-                    <select name="wordoptions">
-
-                    <!-- , "cool", "water","clarion","car","vehicle","barn","hat","wood" -->
-  <option value="0">hi</option>
-  <option value="1">cool</option>
-  <option value="2">water</option>
-  <option value="3">clarion</option>
-  <option value="4">car</option>
-  <option value="5">vehicle</option>
-  <option value="6">barn</option>
-  <option value="7">hat</option>
-  <option value="8">wood</option>
+                    
+                    <select name="wordoptions" id="wordoptions">
 
 
 </select>
-<input type="submit" id="submitAnswer">
-</form>
+<button type="submit" id="submitAnswer">Submit Answer</button>
+
 </div>
+
+<h4>Please select your word.</h4>
+    <p> 
+        <label><input type="radio" name="hi" value="vocab">hi</label> 
+        <label><input type="radio" name="cool" value="vocab">cool</label>
+        <label><input type="radio" name="water" value="vocab">water</label>
+        <label><input type="radio" name="clarion" value="vocab">clarion</label>
+        <label><input type="radio" name="car" value="vocab">car</label>
+    </p>
+    <p><input type="button" value="Get answer"></p>
 
 
 
@@ -613,6 +612,13 @@
 
 <script type="text/javascript">
 
+var count = 0;
+ 
+ $("#update").click(function() {
+     // count++;
+     $("#counter").html("You have to get the right answer to score");
+ });
+
 $(function(){
 
 //no idea what this is
@@ -623,6 +629,7 @@ wall.fitWidth();
 var count = 0;
 
 function lookupWord(word, element, random){
+    element.html("")
      $.get("https://cors-anywhere.herokuapp.com/https://owlbot.info/api/v1/dictionary/" + word, function(data){
 
                 if(data.length == 0){
@@ -645,6 +652,7 @@ function lookupWord(word, element, random){
                                 val= decodeURIComponent(escape(val))
                                 element.append(val +" " + "<br>")
                             }
+                               
                         }
 
                         
@@ -666,13 +674,57 @@ $("#lookupButton").click(function(){
 
 
 //pick a random word
-var word = ["hi", "cool", "water","clarion","car","vehicle","barn","hat","wood"];
+
+var words = ["hi", "cool", "water","clarion","car","vehicle","barn","hat","wood", "funk"];
 randomNumber = Math.floor((Math.random() * 10));
-var name = word[randomNumber] + " ";
+var name = words[randomNumber] + " ";
 
-if ($("#displayrandomdef") == name) {
+lookupWord(name, $("#displayrandomdef"), true)
 
-}
+$.each(words, function(key, value){
+    option = "<option value='"+ key +"'>" + value + "</option>"
+    $("#wordoptions").append(option)
+})
+
+$("#submitAnswer").click(function(){
+    var selectedAnswer = $("#wordoptions").val();
+
+    if(randomNumber == selectedAnswer){
+        alert("good job")
+        count++;
+     $("#counter").html("score is: "+count);
+    randomNumber = Math.floor((Math.random() * 10));
+    var words = ["hi", "cool", "water","clarion","car","vehicle","barn","hat","wood", "funk"];
+var name = words[randomNumber] + " ";
+     // $("#displayrandomdef").html("");
+      lookupWord(name, $("#displayrandomdef"), true)
+    }else{
+        alert("bad job")
+        count--;
+        if (count < 0) {
+            count = 0;
+        }
+        else{
+        $("#counter").html("score is: "+count);
+        }
+    }
+
+$.each(words, function(key, value){
+    option = "<option value='"+ key +"'>" + value + "</option>"
+    // $("#wordoptions").append(option)
+    // $("#wordoptions").append(option)
+})
+})
+
+
+// $(#submitAnswer).click(function () {
+//     alert("this is cool")
+
+//         // msg.attr("hidden", true);
+//         // console.log(guessInput.val());
+//         // guess(guessInput.val());
+//     })
+
 
 // $.each(data, function(key, val){
 
@@ -683,11 +735,54 @@ if ($("#displayrandomdef") == name) {
 //                             element.append(val + "<br>")
 //                         }
 
- lookupWord(name, $("#displayrandomdef"), true)
+ 
 
  
 
  });
+
+$(document).ready(function(){
+        $("input[type='button']").click(function(){
+            var radioValue = $("input[name='vocab']:checked").val();
+            if(radioValue){
+                alert("Your are a - " + radioValue);
+            }
+        });
+
+        function GetSelectedItem() {
+
+     var option = document.getElementById('wordoptions').value;
+
+
+
+//      switch(option ==) {
+//     case n:
+//         code block
+//         break;
+//     case n:
+//         code block
+//         break;
+//     default:
+//         default code block
+// }
+
+    } 
+
+
+    var answerCheck = GetSelectedItem();
+    
+     if (answerCheck == name) {
+
+
+
+$("#submitAnswer").click(function() {
+    
+    count++;
+    $("#counter").html("My current count is: "+count);
+});
+     } else {alert("hey")}
+        
+    });
 
 
 
