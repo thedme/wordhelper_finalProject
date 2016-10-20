@@ -59,7 +59,7 @@
                         <a href="#page-top"></a>
                     </li>
                     <li class="page-scroll">
-                        <a href="#portfolio">Portfolio</a>
+                        <a href="#gamezone">GameZone</a>
                     </li>
                     <li class="page-scroll">
                         <a href="#about">About</a>
@@ -99,18 +99,31 @@
     <!-- Portfolio Grid Section -->
 
 
-    <section id="portfolio">
+    <section id="gamezone">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12 text-center">
 
 
-                    <h2><button id="update" type="button">score</button>
-<div id="counter" >0</div></h2>
+                   <!--  <h2><button id="update" type="button">score</button>
+<div id="counter" >0</div></h2> --><h1>Game Zone </h1>
                     <hr class="star-primary">
-                    <div><textarea class="form-control" rows="5" id="displayrandomdef"></textarea></div>
-                </div>
-                    <div size="20px">
+                    <h3 style="text-align:left">Definition</h3>
+                    <div><textarea class="form-control" rows="3" id="displayrandomdef"></textarea></div>
+<br><br>                    <div size="18px">
+                    
+                    <select name="wordoptions" id="wordoptions">
+
+
+</select>
+<button type="submit" id="submitAnswer">Submit Answer</button>
+
+</div><br><br>
+
+<hr class="star-primary">
+                    <h3 style="text-align:left">Vocabulary Word</h3>
+                    <div id="displayrandomvocab"></div>
+<br><br>                    <div size="18px">
                     
                     <select name="wordoptions" id="wordoptions">
 
@@ -612,13 +625,13 @@
 
 <script type="text/javascript">
 
-var count = 0;
+// var count = 0;
  
- $("#update").click(function() {
-     // count++;
-     $("#counter").html("You have to get the right answer to score");
+//  $("#update").click(function() {
+//      // count++;
+//      $("#counter").html("You have to get the right answer to score");
 
- });
+//  });
 
 $(function(){
 
@@ -628,6 +641,19 @@ wall.fitWidth();
 
 //start scoring count at 0
 var count = 0;
+
+function throwVocab(){
+    //element.html("")
+
+    var class1 = '"form-control"'
+    var rows1 = '"3"'
+    var words = ["hi", "cool", "water","clarion","car","vehicle","barn","hat","wood", "funk"];
+var randomNumber = Math.floor((Math.random() * 10));
+var name = words[randomNumber] + " ";
+$("#displayrandomvocab").append("<textarea class=" + class1 + " rows=" + rows1 + ">" + name + "</textarea>");
+
+
+}
 
 function lookupWord(word, element, random){
     element.html("")
@@ -723,6 +749,32 @@ var name = words[randomNumber] + " ";
      // $("#displayrandomdef").html("");
       lookupWord(name, $("#displayrandomdef"), true)              // The function returns the product of p1 and p2
 }
+
+
+// lookupWord(name, $("#displayrandomvocab"), true);
+
+throwVocab();
+
+function myTemperature() {
+
+    $.getJSON(
+    "http://api.geonames.org/findNearByWeatherJSON"
+    + "?lat=40.849557&lng=-73.929857&username=demo&callback=?",
+    function(data) {
+        var celsius = data.weatherObservation.temperature;
+        var fahrenheit = 32 + (212 - 32) / 100 * celsius;
+        alert("It's " + Math.round(fahrenheit) + "° outside!");
+    }
+);
+}
+
+$('#displayrandomvocab').append(myTemperature());
+
+// $('#update').bind("mousemove", function(e) { 
+//     $(this).text("your score is" + ": " +count);
+
+// });
+
 // $(#submitAnswer).click(function () {
 //     alert("this is cool")
 
@@ -746,6 +798,8 @@ var name = words[randomNumber] + " ";
  
 
  });
+
+
 
 $(document).ready(function(){
         $("input[type='button']").click(function(){
@@ -789,6 +843,10 @@ $("#submitAnswer").click(function() {
      } else {console.log("hey")}
         
     });
+
+
+
+
 
 
 
